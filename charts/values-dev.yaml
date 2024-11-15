@@ -9,3 +9,5 @@ global:
 apps:
   nginx:
     namespace: default
+nginx:
+    namespace: default
