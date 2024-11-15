@@ -1,3 +1,11 @@
+global:
+  environment: infra
+  projectName: taas-infra
+  source:
+    appsBasePath: charts/apps
+    repoURL: https://github.com/flamurdamoni/kubernetes
+    targetRevision: main
+
 apps:
   nginx:
     namespace: default
