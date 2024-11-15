@@ -6,6 +6,6 @@ global:
 #     repoURL: https://github.com/flamurdamoni/kubernetes
 #     targetRevision: main
 
-# apps:
-#   nginx:
-#     namespace: default
+apps:
+  nginx:
+    namespace: default
