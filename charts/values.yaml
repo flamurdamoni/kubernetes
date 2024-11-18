@@ -1,7 +1,7 @@
 apps:
   cert-manager:
     namespace: cert-manager
-    replicaCount: 4
+    replicaCount: 1
     ignoreDifferences:
     - group: admissionregistration.k8s.io
       kind: ValidatingWebhookConfiguration
