@@ -1,0 +1,10 @@
+apiVersion: v2
+name: nginx
+description: A Helm chart for deploying NGINX
+version: 0.1.0
+appVersion: 18.2.5
+dependencies:
+  - name: nginx
+    repository: https://charts.bitnami.com/bitnami
+    version: 18.2.5
+
