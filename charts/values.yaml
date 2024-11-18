@@ -2,8 +2,8 @@ apps:
   cert-manager:
     namespace: cert-manager
     helmValues:
-      replicaCount: 2
+      cert-manager.replicaCount: "2"
   keycloak:
     namespace: auth
     helmValues:
-      replicaCount: 2
+      keycloak.replicaCount: "2"
