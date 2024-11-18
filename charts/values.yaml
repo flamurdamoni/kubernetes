@@ -16,7 +16,3 @@ apps:
     helmValues:
       cert-manager.replicaCount: "2"
 
-  nginx2:
-    namespace: nginx2
-    helmValues:
-      cert-manager.replicaCount: "2"
