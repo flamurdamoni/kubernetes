@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: test-infra
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+  source:
+    path: charts/apps
+    repoURL: https://github.com/flamurdamoni/kubernetes
+    targetRevision: master
+    helm:
+      valueFiles:
+      - values-infra.yaml
