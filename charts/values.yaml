@@ -1,4 +1,4 @@
 apps:
   cert-manager:
-    namespace: cert-manager-1
-    replicaCount: 1
+    namespace: cert-manager
+    replicaCount: 4
