@@ -1,9 +1,10 @@
 apiVersion: v2
-description: Keycloak is a high performance Java-based identity and access management solution. It lets developers add an authentication layer to their applications with minimum effort.
-name: keycloak
+name: nginx
+description: A Helm chart for deploying NGINX
 version: 0.1.0
-appVersion: 22.0.4
+appVersion: 18.2.5
 dependencies:
-  - repository: oci://registry-1.docker.io/bitnamicharts
-    name: keycloak
-    version: 17.0.2
+  - name: nginx
+    repository: https://charts.bitnami.com/bitnami
+    version: 18.2.5
+
