@@ -1,4 +1,4 @@
-{{- range $chartName,$chartValues := .Values.charts }}
+{{- range $chartName,$chartValues := .Values.apps }}
 {{- if ne $chartValues.enabled false }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -10,15 +10,8 @@ metadata:
     {{- if $chartValues.valueFile }}
     valueFileChecksum: {{ (print ($.Files.Get $chartValues.valueFile)) | sha256sum }}
     {{- end }}
-    {{- with $chartValues.annotations }}
-    {{- tpl (toYaml .) $ | nindent 4 }}
-    {{- end }}
-  {{- if eq $chartValues.preventDelete false }}
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
-  {{- end }}
 spec:
-  project: {{ ($.Values.projectValues).projectName | default $.Release.Name }}
+  project: {{ ($.Values.global).projectName | default $.Release.Name }}
   revisionHistoryLimit: 3
 {{- if $chartValues.ignoreDifferences }}
   ignoreDifferences:
@@ -47,44 +40,35 @@ spec:
     server: https://kubernetes.default.svc
     namespace: {{ $chartValues.namespace }}
   source:
-  {{- if $chartValues.path }}
-    path: {{ $chartValues.path }}
-  {{- else }}
-    {{- if $chartValues.overrideChartName }}
-    chart: {{ $chartValues.overrideChartName }}
-    {{- else}}
-    {{- if $.Values.global.helm.path }}
-    path: {{ $.Values.global.helm.path }}
-    {{- else }}
-    chart: {{ $chartName }}
-    {{- end}}
-   {{- end }}
+  {{- if $chartValues.appsBasePath }}
+    path: {{ $chartValues.appsBasePath }}
+  {{- else}}
+    path: {{ $.Values.global.source.appsBasePath }}/{{ $chartName }}
   {{- end}}
-
 
   {{- if $chartValues.repoURL }}
     repoURL: {{ $chartValues.repoURL }}
   {{- else}}
-    repoURL: {{ $.Values.global.helm.repoURL }}
+    repoURL: {{ $.Values.global.source.repoURL }}
   {{- end}}
-    {{- if $chartValues.targetRevision }}
+  {{- if $chartValues.targetRevision }}
     targetRevision: {{ $chartValues.targetRevision }}
-    {{- else if $.Values.global.helm.targetRevision }}
-    targetRevision: {{ $.Values.global.helm.targetRevision }}
-    {{- end}}
+  {{- else if $.Values.global.source.targetRevision }}
+    targetRevision: {{ $.Values.global.source.targetRevision }}
+  {{- end}}
     helm:
       passCredentials: true
-      {{- if $chartValues.valueFile }}
+    {{- if $chartValues.valueFile }}
       values: |
       {{- include "tpl-values" (dict "values" ($.Files.Get $chartValues.valueFile) "context" $ ) | nindent 8 }}
       {{- end}}
       parameters:
-       {{- range $name,$value := $.Values.global.helm.parameters }}
+       {{- range $name,$value := $.Values.global.helmValues }}
         - name: {{ $name | quote}}
           value: {{ tpl $value $ | quote }}
           forceString: true
        {{- end }}
-       {{- range $name,$value := $chartValues.parameters }}
+       {{- range $name,$value := $chartValues.helmValues }}
         - name: {{ $name | quote}}
           value: {{ tpl $value $ | quote }}
           forceString: true
@@ -92,3 +76,4 @@ spec:
 ---
 {{- end }}
 {{- end }}
+
