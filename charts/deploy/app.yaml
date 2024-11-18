@@ -11,9 +11,9 @@ spec:
     automated:
       prune: true
   source:
-    path: charts/apps
+    path: charts
     repoURL: https://github.com/flamurdamoni/kubernetes
-    targetRevision: master
+    targetRevision: main
     helm:
       valueFiles:
       - values-infra.yaml
