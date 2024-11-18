@@ -3,7 +3,6 @@ apps:
     namespace: cert-manager
     helmValues:
       replicaCount: 2
-  apps:
   keycloak:
     namespace: auth
     helmValues:
