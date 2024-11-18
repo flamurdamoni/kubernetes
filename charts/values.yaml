@@ -7,3 +7,7 @@ apps:
     namespace: auth
     helmValues:
       keycloak.replicaCount: "2"
+  nginx:
+    namespace: nginx
+    helmValues:
+      cert-manager.replicaCount: "2"
